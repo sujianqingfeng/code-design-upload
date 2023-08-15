@@ -1,10 +1,12 @@
 // https://cdn3.codesign.qq.com/screen-slices/2023/07/04/2kY5j233AlD6070ExNd04/vlc3idauyiufvgne/608975f3-4b32-43cb-858d-87badcc87eb5.png?imageMogr2/thumbnail/160x160/interlace/1
 
+import './assets/content.css';
 import {
   createBtElement,
   createDivElement,
   intervalElementVisible
 } from './utils/element';
+
 (function () {
   console.log('----content----')
 

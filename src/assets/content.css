@@ -1,0 +1,15 @@
+.upload-root{
+  margin-top: 8px;
+  display: flex;
+}
+
+.upload-bt{
+  flex:1;
+  display: block;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 2px;
+  color: hsla(0,0%,100%,.9);
+  background-color: #222324;
+  cursor: pointer;
+}
