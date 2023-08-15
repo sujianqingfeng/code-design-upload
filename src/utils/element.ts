@@ -43,3 +43,14 @@ export const createBtElement = (opt: BtOption) => {
   el.onclick = onClick
   return el
 }
+
+
+export const getSize = (str: string)=>{
+  const pattern = /(\d+)px x (\d+)px/
+  const result = pattern.exec(str)
+  
+  if(result && result.length>2){
+    return [result[1],result[2]]
+  }
+  return null
+}
