@@ -1,17 +1,19 @@
-import {Select} from 'antd'
+import { Select } from 'antd'
 
 function App() {
-  return <>
-   <div className=''>
-   <Select
-      options={[
-        { value: 'jack', label: 'Jack' },
-      ]}
-    />
-    <button className='i-carbon-document-import h-4 w-4'></button>
-   </div>
-  
-  </>
+  const onImport = () => {}
+
+  return (
+    <>
+      <div className="flex-start-center">
+        <Select options={[{ value: 'jack', label: 'Jack' }]} />
+        <button
+          onClick={onImport}
+          className="i-carbon-document-import size-4"
+        ></button>
+      </div>
+    </>
+  )
 }
 
 export default App
