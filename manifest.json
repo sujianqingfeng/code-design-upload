@@ -3,8 +3,11 @@
   "name": "code-design-upload",
   "version": "1.0.0",
   "action": { "default_popup": "index.html" },
-  "content_scripts":[{
-    "js":["src/content.tsx"],
-    "matches":["https://codesign.qq.com/app/design/*/inspect*"]
-  }]
+  "content_scripts": [
+    {
+      "js": ["src/content.tsx"],
+      "matches": ["https://codesign.qq.com/app/design/*/inspect*"]
+    }
+  ],
+  "permissions": ["storage"]
 }

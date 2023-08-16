@@ -18,12 +18,16 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
 ;(function () {
   console.log('----content----')
 
-
-  const customUpload = async (url: string)=>{
-    const blob = await fetch(url).then(res=>res.blob())
+  const customUpload = async (url: string) => {
+    const blob = await fetch(url).then((res) => res.blob())
     const formData = new FormData()
     formData.append('file', blob)
-    console.log("🚀 ~ file: content.tsx:26 ~ customUpload ~ formData:", formData)
+    console.log(
+      '🚀 ~ file: content.tsx:26 ~ customUpload ~ formData:',
+      formData
+    )
+    const result = await chrome.storage.sync.get(['inspect-platform'])
+    console.log('🚀 ~ file: content.tsx:30 ~ customUpload ~ result:', result)
   }
 
   const onUploadClick = (target: Element) => {
@@ -55,7 +59,10 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       return
     }
     let url = (thumbImgEl as HTMLImageElement).src
-    url = url.replace(/\/thumbnail\/\d+x\d+/, `/thumbnail/${size[0]}x${size[1]}`)
+    url = url.replace(
+      /\/thumbnail\/\d+x\d+/,
+      `/thumbnail/${size[0]}x${size[1]}`
+    )
     customUpload(url)
   }
 
