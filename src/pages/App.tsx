@@ -1,18 +1,10 @@
-import { Select } from 'antd'
+import { Outlet } from 'react-router-dom'
 
 function App() {
-  const onImport = () => {}
-
   return (
-    <>
-      <div className="flex-start-center">
-        <Select options={[{ value: 'jack', label: 'Jack' }]} />
-        <button
-          onClick={onImport}
-          className="i-carbon-document-import size-4"
-        ></button>
-      </div>
-    </>
+    <div className="p-2">
+      <Outlet></Outlet>
+    </div>
   )
 }
 

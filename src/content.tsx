@@ -26,8 +26,11 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       '🚀 ~ file: content.tsx:26 ~ customUpload ~ formData:',
       formData
     )
-    const result = await chrome.storage.sync.get(['inspect-platform'])
+    await chrome.storage.local.set({ 'inspect-platform': 'qq' })
+    const result = await chrome.storage.local.get(['inspect-platform'])
     console.log('🚀 ~ file: content.tsx:30 ~ customUpload ~ result:', result)
+    const a = localStorage.getItem('inspect-platform')
+    console.log('🚀 ~ file: content.tsx:33 ~ customUpload ~ a:', a)
   }
 
   const onUploadClick = (target: Element) => {
