@@ -9,6 +9,14 @@ export default defineConfig({
   plugins: [
     uno(),
     react(),
-    crx({manifest})
+    crx({
+      manifest
+    })
   ],
+  build:{
+    rollupOptions:{
+      input:{
+      }
+    }
+  }
 })

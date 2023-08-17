@@ -5,8 +5,13 @@
   "action": { "default_popup": "index.html" },
   "content_scripts": [
     {
-      "js": ["src/content.tsx"],
+      "js": ["src/contents/content.tsx"],
       "matches": ["https://codesign.qq.com/app/design/*/inspect*"]
+    },
+    {
+      "js": ["src/contents/inject-content.ts"],
+      "matches": ["https://codesign.qq.com/app/design/*/inspect*"],
+      "run_at": "document_start"
     }
   ],
   "permissions": ["storage"]
