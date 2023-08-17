@@ -14,5 +14,9 @@
       "run_at": "document_start"
     }
   ],
-  "permissions": ["storage"]
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "src/background.ts",
+    "type": "module"
+  }
 }
