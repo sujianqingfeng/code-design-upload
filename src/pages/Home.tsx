@@ -1,6 +1,8 @@
 import { Select, message } from 'antd'
 import { type ChangeEvent } from 'react'
 import { parseJson, readFile } from '../utils'
+import { isTemplateConfigValid } from '../utils/template'
+import { SendBackgroundMessage } from '../types'
 
 function Home() {
   const [messageApi, contextHolder] = message.useMessage()
@@ -18,7 +20,17 @@ function Home() {
         messageApi.error(parseData)
         return
       }
-      console.log('🚀 ~ file: Home.tsx:14 ~ onChange ~ parseData:', parseData)
+      const isValid = isTemplateConfigValid(parseData)
+      if (!isValid) {
+        messageApi.error('配置文件不合法')
+        return
+      }
+      console.log('---send-----')
+
+      chrome.runtime.sendMessage<SendBackgroundMessage>({
+        type: 'addConfig',
+        data: parseData
+      })
     }
   }
 
