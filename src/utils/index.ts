@@ -52,3 +52,9 @@ export const parseJson = (str: string) => {
     }
   )
 }
+
+export const clearArray = <T>(arr: T[]) => {
+  if (arr.length) {
+    arr.splice(0, arr.length)
+  }
+}
