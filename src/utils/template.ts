@@ -2,7 +2,10 @@ import { z } from 'zod'
 
 const zConfig = z.object({
   name: z.string(),
-  uploadText: z.string().optional().default('upload')
+  pictureUploadBtText: z.string().optional().default('upload'),
+  action: z.string(),
+  fileKey: z.string().optional().default('file'),
+  extraForm: z.object({}).optional().default({})
 })
 
 export type Config = z.infer<typeof zConfig>

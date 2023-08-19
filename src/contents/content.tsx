@@ -1,12 +1,15 @@
-// https://cdn3.codesign.qq.com/screen-slices/2023/07/04/2kY5j233AlD6070ExNd04/vlc3idauyiufvgne/608975f3-4b32-43cb-858d-87badcc87eb5.png?imageMogr2/thumbnail/160x160/interlace/1
-
 import '../assets/content.css'
+import { createDebug } from '../utils'
 import {
   createBtElement,
   createDivElement,
   getSize,
   intervalElementVisible
 } from '../utils/element'
+import { sendToBackgroundMessage } from '../utils/message'
+import { type Config } from '../utils/template'
+
+const debug = createDebug('content')
 
 const CODE_DESIGN_THUMB_BOX_CLASS = '.node-box__content .thumb'
 const CODE_DESIGN_DOWNLOAD_CLASS = '.download-slices__confirm-button'
@@ -15,22 +18,23 @@ const CODE_DESIGN_SLICES_ITEM_CLASS =
 const CODE_DESIGN_SLICE_ITEM_CHECKED_CLASS = '.t-is-checked'
 const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
 
-;(function () {
-  console.log('----content----')
+;(async function () {
+  debug('----start content----')
+
+  const currentConfig = (await sendToBackgroundMessage({
+    type: 'getCurrentConfig'
+  })) as Config | null
+
+  if (!currentConfig) {
+    return
+  }
+  debug('currentConfig', currentConfig)
 
   const customUpload = async (url: string) => {
-    const blob = await fetch(url).then((res) => res.blob())
-    const formData = new FormData()
-    formData.append('file', blob)
-    console.log(
-      '🚀 ~ file: content.tsx:26 ~ customUpload ~ formData:',
-      formData
-    )
-    await chrome.storage.local.set({ 'inspect-platform': 'qq' })
-    const result = await chrome.storage.local.get(['inspect-platform'])
-    console.log('🚀 ~ file: content.tsx:30 ~ customUpload ~ result:', result)
-    const a = localStorage.getItem('inspect-platform')
-    console.log('🚀 ~ file: content.tsx:33 ~ customUpload ~ a:', a)
+    sendToBackgroundMessage({
+      type: 'customUpload',
+      data: url
+    })
   }
 
   const onUploadClick = (target: Element) => {

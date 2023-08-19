@@ -1,4 +1,7 @@
 {
   "name": "test config",
-  "uploadText": "上传"
+  "pictureUploadBtText": "上传",
+  "action": "",
+  "fileKey": "file",
+  "extraForm": {}
 }

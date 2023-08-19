@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import debug from 'debug'
+import { EXTENSION_NAME } from '../constants'
 const isFunction = (fn: any) => typeof fn === 'function'
 
 /**
@@ -57,4 +59,17 @@ export const clearArray = <T>(arr: T[]) => {
   if (arr.length) {
     arr.splice(0, arr.length)
   }
+}
+
+export const createDebug = (name: string) => {
+  return debug(`${EXTENSION_NAME}: ${name}`)
+}
+
+export const appendToFormData = (
+  formData: FormData,
+  data: Record<string, any>
+) => {
+  Object.keys(data).forEach((key) => {
+    formData.append(key, data[key])
+  })
 }

@@ -2,7 +2,7 @@ import { Select, message, type SelectProps } from 'antd'
 import { useState, useEffect, type ChangeEvent } from 'react'
 import { parseJson, readFile } from '../utils'
 import { Config, isTemplateConfigValid } from '../utils/template'
-import { type SendToBackgroundMessage } from '../types'
+import { sendToBackgroundMessage } from '../utils/message'
 
 const createConfigOptions = (configs: Config[]): SelectProps['options'] => {
   return configs.map((config, index) => {
@@ -11,10 +11,6 @@ const createConfigOptions = (configs: Config[]): SelectProps['options'] => {
       label: config.name
     }
   })
-}
-
-const sendToBackgroundMessage = (message: SendToBackgroundMessage) => {
-  return chrome.runtime.sendMessage(message)
 }
 
 function Home() {

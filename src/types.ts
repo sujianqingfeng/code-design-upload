@@ -18,11 +18,22 @@ type SendToBackgroundSetConfigIndexMessage = {
   data: number
 }
 
+type SendToBackgroundGetCurrentConfigMessage = {
+  type: 'getCurrentConfig'
+}
+
+type SendToBackgroundCustomUploadMessage = {
+  type: 'customUpload'
+  data: string
+}
+
 export type SendToBackgroundMessage =
   | SendToBackgroundAddConfigMessage
   | SendToBackgroundGetConfigsMessage
   | SendToBackgroundGetConfigIndexMessage
   | SendToBackgroundSetConfigIndexMessage
+  | SendToBackgroundGetCurrentConfigMessage
+  | SendToBackgroundCustomUploadMessage
 
 type SendToPopupGetConfigsMessage = {
   type: 'getConfigs'
