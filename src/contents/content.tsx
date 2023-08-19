@@ -1,5 +1,5 @@
-import { Modal } from 'antd'
 import '../assets/content.css'
+import BeforeUploadModal from '../components/BeforeUploadModal'
 import { createDebug } from '../utils'
 import {
   createUploadRoot,
@@ -19,16 +19,6 @@ const CODE_DESIGN_SLICES_ITEM_CLASS =
   '.download-slices .download-slices__scales-item'
 const CODE_DESIGN_SLICE_ITEM_CHECKED_CLASS = '.t-is-checked'
 const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
-
-const BeforeUploadModal = () => {
-  return (
-    <>
-      <Modal open={true}>
-        <p>fffff</p>
-      </Modal>
-    </>
-  )
-}
 
 ;(async function () {
   debug('----start content----')
@@ -98,13 +88,7 @@ const BeforeUploadModal = () => {
         onClick() {
           // showMessage('ffff')
           // onUploadClick(entry.target)
-          // renderCrxRoot(
-          //   <>
-          //     <Modal open={true}>
-          //       <p>fffff</p>
-          //     </Modal>
-          //   </>
-          // )
+
           renderCrxRoot(<BeforeUploadModal />)
         }
       })

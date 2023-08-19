@@ -1,5 +1,5 @@
 import { crx } from '@crxjs/vite-plugin'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import manifest from './manifest.json'
 import uno from 'unocss/vite'
@@ -10,10 +10,7 @@ export default defineConfig({
     uno(),
     react(),
     crx({
-      manifest,
-      contentScripts: {
-        preambleCode: false
-      }
+      manifest
     })
   ]
 })
