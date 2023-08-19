@@ -27,6 +27,10 @@ type SendToBackgroundCustomUploadMessage = {
   data: string
 }
 
+type SendToBackgroundDeleteCurrentConfigMessage = {
+  type: 'deleteCurrentConfig'
+}
+
 export type SendToBackgroundMessage =
   | SendToBackgroundAddConfigMessage
   | SendToBackgroundGetConfigsMessage
@@ -34,6 +38,7 @@ export type SendToBackgroundMessage =
   | SendToBackgroundSetConfigIndexMessage
   | SendToBackgroundGetCurrentConfigMessage
   | SendToBackgroundCustomUploadMessage
+  | SendToBackgroundDeleteCurrentConfigMessage
 
 type SendToPopupGetConfigsMessage = {
   type: 'getConfigs'

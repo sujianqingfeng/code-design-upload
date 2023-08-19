@@ -36,7 +36,7 @@ type BtOption = {
   onClick: () => void
 }
 export const createBtElement = (opt: BtOption) => {
-  const {className,text,onClick} = opt
+  const { className, text, onClick } = opt
   const el = document.createElement('button')
   el.className = className || ''
   el.innerText = text
@@ -44,13 +44,44 @@ export const createBtElement = (opt: BtOption) => {
   return el
 }
 
-
-export const getSize = (str: string)=>{
+export const getSize = (str: string) => {
   const pattern = /(\d+)px x (\d+)px/
   const result = pattern.exec(str)
-  
-  if(result && result.length>2){
-    return [result[1],result[2]]
+
+  if (result && result.length > 2) {
+    return [result[1], result[2]]
   }
   return null
 }
+
+export const createUploadRoot = (opt: Pick<BtOption, 'onClick'>) => {
+  const { onClick } = opt
+
+  const uploadBtEl = createBtElement({
+    className: 'upload-bt',
+    text: 'upload',
+    onClick
+  })
+  const uploadRoot = createDivElement({
+    id: 'upload-root',
+    className: 'upload-root',
+    child: uploadBtEl
+  })
+
+  return uploadRoot
+}
+
+export const showMessage = (msg: string) => {
+  const el = document.createElement('div')
+  el.innerText = msg
+  el.classList.add('code-design-upload-message-box')
+  document.body.appendChild(el)
+  setTimeout(() => {
+    el.style.top = '20px'
+  }, 0)
+  setTimeout(() => {
+    document.body.removeChild(el)
+  }, 2000)
+}
+
+export const showBeforeUploadModal = () => {}

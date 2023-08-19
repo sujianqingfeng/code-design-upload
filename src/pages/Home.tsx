@@ -1,8 +1,9 @@
-import { Select, message, type SelectProps } from 'antd'
+import { Select, message, Modal, type SelectProps } from 'antd'
 import { useState, useEffect, type ChangeEvent } from 'react'
 import { parseJson, readFile } from '../utils'
 import { Config, isTemplateConfigValid } from '../utils/template'
 import { sendToBackgroundMessage } from '../utils/message'
+import HistoryItem from '../components/HistoryItem'
 
 const createConfigOptions = (configs: Config[]): SelectProps['options'] => {
   return configs.map((config, index) => {
@@ -52,6 +53,21 @@ function Home() {
     sendToBackgroundMessage({ type: 'setConfigIndex', data: value })
   }
 
+  const onDeleteConfig = async () => {
+    Modal.warning({
+      content: '确定删除该配置吗？',
+      onOk: async () => {
+        const configs = await sendToBackgroundMessage({
+          type: 'deleteCurrentConfig'
+        })
+        const options = createConfigOptions(configs)
+        setOptions(options)
+        setConfigIndex(0)
+        messageApi.success('配置删除成功')
+      }
+    })
+  }
+
   useEffect(() => {
     const getConfigs = async () => {
       const configs = await sendToBackgroundMessage({
@@ -83,18 +99,30 @@ function Home() {
           onChange={onConfigChange}
         />
 
-        <span className="relative" role="button">
+        <span className="flex-start-center">
           <input
             onChange={onFileChange}
             id="file"
             type="file"
             className="hidden"
           ></input>
-          <label htmlFor="file">
-            <i className="inline-block i-carbon-document-import"></i>
+          <label htmlFor="file" className="flex-start-center">
+            <i className="i-carbon-document-import size-1 cursor-pointer"></i>
           </label>
         </span>
+
+        {configIndex !== -1 && (
+          <i
+            onClick={onDeleteConfig}
+            className="i-carbon-trash-can size-1 cursor-pointer"
+          ></i>
+        )}
       </div>
+
+      <div className="mt-2">
+        <HistoryItem />
+      </div>
+
       {contextHolder}
     </>
   )

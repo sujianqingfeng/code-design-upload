@@ -61,6 +61,13 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     verify(result)
   }
 
+  const deleteCurrentConfig = async () => {
+    configs.splice(await getConfigIndexFormStorage(), 1)
+    setConfigsToStorage(configs)
+    setConfigIndexToStorage(0)
+    sendResponse(configs)
+  }
+
   switch (type) {
     case 'addConfig':
       addConfig(message.data)
@@ -81,6 +88,10 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
       customUpload(message.data)
       // return true
       break
+
+    case 'deleteCurrentConfig':
+      deleteCurrentConfig()
+      return true
   }
 })
 

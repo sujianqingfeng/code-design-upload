@@ -3,8 +3,10 @@ import { createDebug } from '../utils'
 import {
   createBtElement,
   createDivElement,
+  createUploadRoot,
   getSize,
-  intervalElementVisible
+  intervalElementVisible,
+  showMessage
 } from '../utils/element'
 import { sendToBackgroundMessage } from '../utils/message'
 import { type Config } from '../utils/template'
@@ -82,21 +84,15 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
         return
       }
 
-      const parentNode = downloadEl.parentNode!
-
-      const uploadBtEl = createBtElement({
-        className: 'upload-bt',
-        text: 'upload',
+      const uploadRoot = createUploadRoot({
         onClick() {
-          onUploadClick(entry.target)
+          console.log('🚀 ~ file: content.tsx:89 ~ onClick ~ onClick:')
+          showMessage('ffff')
+          // onUploadClick(entry.target)
         }
       })
-      const uploadRoot = createDivElement({
-        id: 'upload-root',
-        className: 'upload-root',
-        child: uploadBtEl
-      })
 
+      const parentNode = downloadEl.parentNode!
       parentNode.insertBefore(uploadRoot, downloadEl)
     },
     { threshold: [1] }
