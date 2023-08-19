@@ -10,13 +10,10 @@ export default defineConfig({
     uno(),
     react(),
     crx({
-      manifest
-    })
-  ],
-  build:{
-    rollupOptions:{
-      input:{
+      manifest,
+      contentScripts: {
+        preambleCode: false
       }
-    }
-  }
+    })
+  ]
 })

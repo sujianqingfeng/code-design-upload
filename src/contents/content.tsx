@@ -1,11 +1,11 @@
+import { Modal } from 'antd'
 import '../assets/content.css'
 import { createDebug } from '../utils'
 import {
-  createBtElement,
-  createDivElement,
   createUploadRoot,
   getSize,
   intervalElementVisible,
+  renderCrxRoot,
   showMessage
 } from '../utils/element'
 import { sendToBackgroundMessage } from '../utils/message'
@@ -19,6 +19,16 @@ const CODE_DESIGN_SLICES_ITEM_CLASS =
   '.download-slices .download-slices__scales-item'
 const CODE_DESIGN_SLICE_ITEM_CHECKED_CLASS = '.t-is-checked'
 const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
+
+const BeforeUploadModal = () => {
+  return (
+    <>
+      <Modal open={true}>
+        <p>fffff</p>
+      </Modal>
+    </>
+  )
+}
 
 ;(async function () {
   debug('----start content----')
@@ -86,9 +96,16 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
 
       const uploadRoot = createUploadRoot({
         onClick() {
-          console.log('🚀 ~ file: content.tsx:89 ~ onClick ~ onClick:')
-          showMessage('ffff')
+          // showMessage('ffff')
           // onUploadClick(entry.target)
+          // renderCrxRoot(
+          //   <>
+          //     <Modal open={true}>
+          //       <p>fffff</p>
+          //     </Modal>
+          //   </>
+          // )
+          renderCrxRoot(<BeforeUploadModal />)
         }
       })
 

@@ -1,3 +1,7 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { CONTENT_CRX_ROOT_ID, MESSAGE_BOX_CLASS_NAME } from '../constants'
+
 type Option = {
   el: () => Element | null
   timeout: number
@@ -74,7 +78,7 @@ export const createUploadRoot = (opt: Pick<BtOption, 'onClick'>) => {
 export const showMessage = (msg: string) => {
   const el = document.createElement('div')
   el.innerText = msg
-  el.classList.add('code-design-upload-message-box')
+  el.classList.add(MESSAGE_BOX_CLASS_NAME)
   document.body.appendChild(el)
   setTimeout(() => {
     el.style.top = '20px'
@@ -84,4 +88,14 @@ export const showMessage = (msg: string) => {
   }, 2000)
 }
 
-export const showBeforeUploadModal = () => {}
+export const renderCrxRoot = (el: JSX.Element) => {
+  const root = document.createElement('div')
+  root.id = CONTENT_CRX_ROOT_ID
+  document.body.appendChild(root)
+
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <>{el}</>
+    </React.StrictMode>
+  )
+}
