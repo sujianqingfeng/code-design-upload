@@ -32,13 +32,6 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
   }
   debug('currentConfig', currentConfig)
 
-  const customUpload = async (url: string) => {
-    sendToBackgroundMessage({
-      type: 'customUpload',
-      data: url
-    })
-  }
-
   const onUploadClick = (target: Element) => {
     const thumbImgEl = target.querySelector(
       `${CODE_DESIGN_THUMB_BOX_CLASS} img`
@@ -72,7 +65,7 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       /\/thumbnail\/\d+x\d+/,
       `/thumbnail/${size[0]}x${size[1]}`
     )
-    customUpload(url)
+    renderCrxRoot(<BeforeUploadModal url={url} />)
   }
 
   const observer = new IntersectionObserver(
@@ -87,9 +80,7 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       const uploadRoot = createUploadRoot({
         onClick() {
           // showMessage('ffff')
-          // onUploadClick(entry.target)
-
-          renderCrxRoot(<BeforeUploadModal />)
+          onUploadClick(entry.target)
         }
       })
 

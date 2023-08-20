@@ -73,3 +73,15 @@ export const appendToFormData = (
     formData.append(key, data[key])
   })
 }
+
+export const getImageInfoFromUrl = (url: string) => {
+  const reg = /\/([\w-]+?)\.(png|jpg)/
+  const match = url.match(reg)
+  if (match && match.length > 2) {
+    return {
+      name: match[1],
+      suffix: match[2]
+    }
+  }
+  return null
+}

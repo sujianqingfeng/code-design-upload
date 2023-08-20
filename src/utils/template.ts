@@ -5,7 +5,8 @@ const zConfig = z.object({
   pictureUploadBtText: z.string().optional().default('upload'),
   action: z.string(),
   fileKey: z.string().optional().default('file'),
-  extraForm: z.object({}).optional().default({})
+  extraForm: z.string().optional().default('()=>({})'),
+  verify: z.string()
 })
 
 export type Config = z.infer<typeof zConfig>
