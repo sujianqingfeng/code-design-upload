@@ -48,7 +48,7 @@ export const createBtElement = (opt: BtOption) => {
   return el
 }
 
-export const getSize = (str: string) => {
+export const getImageSize = (str: string) => {
   const pattern = /(\d+)px x (\d+)px/
   const result = pattern.exec(str)
 
@@ -98,4 +98,14 @@ export const renderCrxRoot = (el: JSX.Element) => {
       <>{el}</>
     </React.StrictMode>
   )
+}
+
+export const copyTextToClipboard = (text: string) => {
+  const copyFrom = document.createElement('textarea')
+  copyFrom.textContent = text
+  document.body.appendChild(copyFrom)
+  copyFrom.select()
+  document.execCommand('copy')
+  copyFrom.blur()
+  document.body.removeChild(copyFrom)
 }

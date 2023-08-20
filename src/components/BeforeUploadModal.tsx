@@ -1,7 +1,8 @@
-import { Modal, Input } from 'antd'
+import { Modal, Input, message } from 'antd'
 import { useState, type ChangeEvent } from 'react'
 import { sendToBackgroundMessage } from '../utils/message'
 import { getImageInfoFromUrl } from '../utils'
+import { copyTextToClipboard } from '../utils/element'
 
 type Props = {
   url: string
@@ -9,6 +10,7 @@ type Props = {
 
 const BeforeUploadModal = (props: Props) => {
   const { url } = props
+  const [messageApi, contextHolder] = message.useMessage()
 
   const result = getImageInfoFromUrl(url)
   const [open, setOpen] = useState(true)
@@ -23,6 +25,8 @@ const BeforeUploadModal = (props: Props) => {
   }
 
   const onOk = () => {
+    messageApi.success('上传成功，已复制')
+    copyTextToClipboard('上传成功，已复制')
     sendToBackgroundMessage({
       type: 'customUpload',
       data: {
@@ -52,6 +56,8 @@ const BeforeUploadModal = (props: Props) => {
 
         <img src={url} style={{ marginTop: '0.5rem', maxWidth: '100%' }} />
       </Modal>
+
+      {contextHolder}
     </>
   )
 }

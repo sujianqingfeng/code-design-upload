@@ -3,10 +3,9 @@ import BeforeUploadModal from '../components/BeforeUploadModal'
 import { createDebug } from '../utils'
 import {
   createUploadRoot,
-  getSize,
+  getImageSize,
   intervalElementVisible,
-  renderCrxRoot,
-  showMessage
+  renderCrxRoot
 } from '../utils/element'
 import { sendToBackgroundMessage } from '../utils/message'
 import { type Config } from '../utils/template'
@@ -56,7 +55,7 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       return
     }
 
-    const size = getSize(sizeText)
+    const size = getImageSize(sizeText)
     if (!size) {
       return
     }
@@ -79,7 +78,6 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
 
       const uploadRoot = createUploadRoot({
         onClick() {
-          // showMessage('ffff')
           onUploadClick(entry.target)
         }
       })

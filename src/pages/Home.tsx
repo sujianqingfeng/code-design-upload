@@ -4,6 +4,7 @@ import { parseJson, readFile } from '../utils'
 import { Config, isTemplateConfigValid } from '../utils/template'
 import { sendToBackgroundMessage } from '../utils/message'
 import HistoryItem from '../components/HistoryItem'
+import { Effect, pipe } from 'effect'
 
 const createConfigOptions = (configs: Config[]): SelectProps['options'] => {
   return configs.map((config, index) => {
@@ -22,29 +23,24 @@ function Home() {
   const onFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0]
-      const [isReadFileOk, readFileData] = await readFile(file)
-      if (!isReadFileOk) {
-        messageApi.error(readFileData)
-        return
-      }
-      const [isParseOk, parseData] = await parseJson(readFileData)
-      if (!isParseOk) {
-        messageApi.error(parseData)
-        return
-      }
-      const [isValid, config] = isTemplateConfigValid(parseData)
-      if (!isValid) {
-        messageApi.error(config)
-        return
+
+      const onfulfilled = async (config: Config) => {
+        messageApi.success('配置文件导入成功')
+        const configs = await sendToBackgroundMessage({
+          type: 'addConfig',
+          data: config
+        })
+        const options = createConfigOptions(configs)
+        setOptions(options)
       }
 
-      messageApi.success('配置文件导入成功')
-      const configs = await sendToBackgroundMessage({
-        type: 'addConfig',
-        data: config
-      })
-      const options = createConfigOptions(configs)
-      setOptions(options)
+      Effect.runPromise(
+        pipe(file, readFile, Effect.map(parseJson), isTemplateConfigValid)
+      )
+        .then(onfulfilled)
+        .catch((error) => {
+          messageApi.error(error.message)
+        })
     }
   }
 

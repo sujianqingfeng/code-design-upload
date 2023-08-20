@@ -1,5 +1,5 @@
-import { getImageInfoFromUrl } from '../index'
-
+import { getImageInfoFromUrl, parseJson, readFile } from '../index'
+import { Effect } from 'effect'
 import { describe, test, expect } from 'vitest'
 
 describe('utils index', () => {
@@ -11,6 +11,23 @@ describe('utils index', () => {
       {
         "name": "a6a68207-a7c1-4f06-8382-5236a937db43",
         "suffix": "png",
+      }
+    `)
+  })
+
+  test('readFile', async () => {
+    const str = `{"name": "test config"}`
+    const f = new File([str], 'test.txt', { type: 'text/plain' })
+    const result = await Effect.runPromise(readFile(f))
+    expect(result).toMatchInlineSnapshot('"{\\"name\\": \\"test config\\"}"')
+  })
+
+  test('parseJson', async () => {
+    const str = `{"name": "test config"}`
+    const result = await Effect.runPromise(parseJson(str))
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "name": "test config",
       }
     `)
   })
