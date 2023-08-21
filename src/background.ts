@@ -2,7 +2,7 @@ import type {
   SendToBackgroundCustomUploadMessagePreload,
   SendToBackgroundMessage
 } from './types'
-import { appendToFormData, createDebug } from './utils'
+import { appendToFormData, createDebug, get } from './utils'
 import {
   getConfigIndexFormStorage,
   getConfigsFormStorage,
@@ -51,7 +51,8 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
       return
     }
 
-    const { fileKey, extraForm, action, formMapName } = currentConfig
+    const { fileKey, extraForm, action, formMapName, verifyIsOk, resultMap } =
+      currentConfig
     const { url, name, suffix } = data
 
     const fileName = `${name}.${suffix}`
@@ -67,15 +68,19 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
 
     const res = await fetch(action, { method: 'POST', body: formData })
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const verifyA = (result: Record<string, any>) => {
-      console.log('🚀 ~ file: background.ts:58 ~ verify ~ result:', result)
-    }
-    verifyA(res.json())
+    const jsonData = await res.json()
+    const { path: verifyPath, value: verifyValue } = verifyIsOk
+    const isOk = get(jsonData, verifyPath) === verifyValue
 
-    // const verifyFn = new Function('result', verify) as VerifyFn
-    // const jsonData = await res.json()
-    // verifyFn(jsonData)
+    if (!isOk) {
+      return
+    }
+    const { urlPath } = resultMap
+    const resultUrl = get(jsonData, urlPath)
+    console.log(
+      '🚀 ~ file: background.ts:80 ~ chrome.runtime.onMessage.addListener ~ resultUrl:',
+      resultUrl
+    )
   }
 
   const deleteCurrentConfig = async () => {

@@ -82,3 +82,19 @@ export const getImageInfoFromUrl = (url: string) => {
   }
   return null
 }
+
+export const get = (
+  data: Record<string, any>,
+  str: string,
+  defaultValue = ''
+) => {
+  const value = str.split('.').reduce((pre, cur) => {
+    return pre?.[cur]
+  }, data)
+
+  if (value) {
+    return value
+  }
+
+  return defaultValue
+}

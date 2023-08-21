@@ -11,6 +11,9 @@ const zConfig = z.object({
   verifyIsOk: z.object({
     path: z.string(),
     value: z.any()
+  }),
+  resultMap: z.object({
+    urlPath: z.string()
   })
 })
 
