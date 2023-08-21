@@ -6,18 +6,15 @@ const zConfig = z.object({
   pictureUploadBtText: z.string().optional().default('upload'),
   action: z.string().min(1).trim(),
   fileKey: z.string().optional().default('file'),
-  extraForm: z.string().optional().default('()=>({})'),
-  verify: z.string().min(1).trim()
+  extraForm: z.record(z.any()).default({}),
+  formMapName: z.string().optional(),
+  verifyIsOk: z.object({
+    path: z.string(),
+    value: z.any()
+  })
 })
 
 export type Config = z.infer<typeof zConfig>
-
-// export const isTemplateConfigValid = (
-//   data: Record<string, string>
-// ): [true, Config] | [false, string] => {
-//   const result = zConfig.safeParse(data)
-//   return result.success ? [true, result.data] : [false, '配置不合法']
-// }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isTemplateConfigValid = (data: Record<string, any>) => {

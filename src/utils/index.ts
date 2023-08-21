@@ -29,21 +29,6 @@ export function createSafePromise<R = unknown, T extends any[] = any[]>(
   }
 }
 
-// export const readFile = (file: File) => {
-//   return new Promise<[boolean, string]>((resolve) => {
-//     const render = new FileReader()
-//     render.onload = (e) => {
-//       if (!e.target) {
-//         resolve([false, '读取文件失败'])
-//         return
-//       }
-//       const result = e.target.result as string
-//       resolve([true, result])
-//     }
-//     render.readAsText(file)
-//   })
-// }
-
 export const readFile = (file: File) => {
   return Effect.async<never, string, string>((resume) => {
     const render = new FileReader()
@@ -59,20 +44,8 @@ export const readFile = (file: File) => {
   })
 }
 
-// export const parseJson = (str: string) => {
-//   return new Promise<[true, Record<string, any>] | [false, string]>(
-//     (resolve) => {
-//       try {
-//         const data = JSON.parse(str)
-//         resolve([true, data])
-//       } catch (error) {
-//         resolve([false, '解析失败'])
-//       }
-//     }
-//   )
-// }
-
 export const parseJson = (str: string) => {
+  console.log('🚀 ~ file: index.ts:77 ~ parseJson ~ str:', str)
   return Effect.try({
     try: () => JSON.parse(str) as Record<string, any>,
     catch: () => Effect.fail('解析失败')

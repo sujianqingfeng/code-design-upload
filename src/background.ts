@@ -1,6 +1,4 @@
 import type {
-  ExtraFormFn,
-  VerifyFn,
   SendToBackgroundCustomUploadMessagePreload,
   SendToBackgroundMessage
 } from './types'
@@ -53,26 +51,31 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
       return
     }
 
-    const { fileKey, extraForm, action, verify } = currentConfig
-    const { url, name } = data
+    const { fileKey, extraForm, action, formMapName } = currentConfig
+    const { url, name, suffix } = data
 
+    const fileName = `${name}.${suffix}`
     const blob = await fetch(url).then((res) => res.blob())
     const formData = new FormData()
-    formData.append(fileKey, blob)
+    formData.append(fileKey, blob, fileName)
 
-    const extraFormFn = new Function('name', extraForm) as ExtraFormFn
-    appendToFormData(formData, extraFormFn(name))
+    appendToFormData(formData, extraForm)
+
+    if (formMapName) {
+      formData.append(formMapName, fileName)
+    }
 
     const res = await fetch(action, { method: 'POST', body: formData })
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const verify = (result: Record<string, any>) => {
-    //   console.log('🚀 ~ file: background.ts:58 ~ verify ~ result:', result)
-    // }
-    // verify(result)
-    const verifyFn = new Function('result', verify) as VerifyFn
-    const jsonData = await res.json()
-    verifyFn(jsonData)
+    const verifyA = (result: Record<string, any>) => {
+      console.log('🚀 ~ file: background.ts:58 ~ verify ~ result:', result)
+    }
+    verifyA(res.json())
+
+    // const verifyFn = new Function('result', verify) as VerifyFn
+    // const jsonData = await res.json()
+    // verifyFn(jsonData)
   }
 
   const deleteCurrentConfig = async () => {

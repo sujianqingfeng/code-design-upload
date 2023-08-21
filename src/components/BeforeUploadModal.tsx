@@ -31,7 +31,8 @@ const BeforeUploadModal = (props: Props) => {
       type: 'customUpload',
       data: {
         url,
-        name
+        name,
+        suffix: result!.suffix
       }
     })
   }

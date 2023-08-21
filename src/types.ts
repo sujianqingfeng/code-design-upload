@@ -25,6 +25,7 @@ type SendToBackgroundGetCurrentConfigMessage = {
 export type SendToBackgroundCustomUploadMessagePreload = {
   url: string
   name: string
+  suffix: string
 }
 
 type SendToBackgroundCustomUploadMessage = {

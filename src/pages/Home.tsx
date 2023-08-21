@@ -35,7 +35,12 @@ function Home() {
       }
 
       Effect.runPromise(
-        pipe(file, readFile, Effect.map(parseJson), isTemplateConfigValid)
+        pipe(
+          file,
+          readFile,
+          Effect.flatMap(parseJson),
+          Effect.flatMap(isTemplateConfigValid)
+        )
       )
         .then(onfulfilled)
         .catch((error) => {

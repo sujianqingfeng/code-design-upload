@@ -3,5 +3,6 @@
   "pictureUploadBtText": "上传",
   "action": "",
   "fileKey": "file",
-  "extraForm": {}
+  "extraForm": "is fn",
+  "verify": "is fn"
 }
