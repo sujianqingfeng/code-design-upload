@@ -1,4 +1,4 @@
-import { getImageInfoFromUrl, parseJson, readFile } from '../index'
+import { get, getImageInfoFromUrl, parseJson, readFile } from '../index'
 import { Effect } from 'effect'
 import { describe, test, expect } from 'vitest'
 
@@ -30,5 +30,14 @@ describe('utils index', () => {
         "name": "test config",
       }
     `)
+  })
+
+  test('get', () => {
+    const data = {
+      code: 0,
+      data: 'test'
+    }
+    const result = get(data, 'data')
+    expect(result).toBe('test')
   })
 })

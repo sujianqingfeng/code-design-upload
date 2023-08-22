@@ -1,4 +1,5 @@
-import { CONFIGS_KEY, CONFIG_INDEX_KEY } from '../constants'
+import { HistoryItemProps } from '../components/HistoryItem'
+import { CONFIGS_KEY, CONFIG_INDEX_KEY, HISTORIES_KEY } from '../constants'
 import { type Config } from './template'
 
 export const getConfigsFormStorage = async (defaultValue = []) => {
@@ -20,5 +21,16 @@ export const getConfigIndexFormStorage = async (defaultValue = 0) => {
 export const setConfigIndexToStorage = async (index: number) => {
   await chrome.storage.local.set({
     [CONFIG_INDEX_KEY]: index
+  })
+}
+
+export const getHistoriesFormStorage = async (defaultValue = []) => {
+  const result = await chrome.storage.local.get(HISTORIES_KEY)
+  return result[HISTORIES_KEY] || defaultValue
+}
+
+export const setHistoriesToStorage = async (histories: HistoryItemProps[]) => {
+  await chrome.storage.local.set({
+    [HISTORIES_KEY]: histories
   })
 }

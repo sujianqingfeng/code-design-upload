@@ -1,12 +1,14 @@
 import { Select, message, Modal, type SelectProps } from 'antd'
 import { useState, useEffect, type ChangeEvent } from 'react'
 import { parseJson, readFile } from '../utils'
-import { Config, isTemplateConfigValid } from '../utils/template'
+import { type Config, isTemplateConfigValid } from '../utils/template'
 import { sendToBackgroundMessage } from '../utils/message'
-import HistoryItem from '../components/HistoryItem'
+import HistoryItem, { type HistoryItemProps } from '../components/HistoryItem'
 import { Effect, pipe } from 'effect'
 
-const createConfigOptions = (configs: Config[]): SelectProps['options'] => {
+type Options = Exclude<SelectProps['options'], undefined>
+
+const createConfigOptions = (configs: Config[]): Options => {
   return configs.map((config, index) => {
     return {
       value: index,
@@ -17,8 +19,9 @@ const createConfigOptions = (configs: Config[]): SelectProps['options'] => {
 
 function Home() {
   const [messageApi, contextHolder] = message.useMessage()
-  const [options, setOptions] = useState<SelectProps['options']>([])
-  const [configIndex, setConfigIndex] = useState(-1)
+  const [options, setOptions] = useState<Options>([])
+  const [configIndex, setConfigIndex] = useState<null | number>(null)
+  const [histories, setHistories] = useState<HistoryItemProps[]>([])
 
   const onFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
@@ -85,15 +88,39 @@ function Home() {
       const index = await sendToBackgroundMessage({
         type: 'getConfigIndex'
       })
-      setConfigIndex(index)
+      if (options.length) {
+        setConfigIndex(index)
+      }
     }
     getConfigIndex()
+  }, [options])
+
+  useEffect(() => {
+    const getHistories = async () => {
+      const histories = await sendToBackgroundMessage({
+        type: 'getHistories'
+      })
+      setHistories(histories)
+    }
+    getHistories()
   }, [])
+
+  const existHistory = () => {
+    return (
+      <>
+        <p>历史</p>
+        {histories.map((item) => {
+          return <HistoryItem {...item} />
+        })}
+      </>
+    )
+  }
 
   return (
     <>
       <div className="flex-start-center gap-2">
         <Select
+          className="flex-1"
           value={configIndex}
           placeholder="请选择配置"
           options={options}
@@ -121,7 +148,13 @@ function Home() {
       </div>
 
       <div className="mt-2">
-        <HistoryItem />
+        {histories.length ? (
+          existHistory()
+        ) : (
+          <div className="h-20 flex-center">
+            <p className="color-gray">暂无历史数据</p>
+          </div>
+        )}
       </div>
 
       {contextHolder}

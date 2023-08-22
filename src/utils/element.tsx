@@ -58,12 +58,12 @@ export const getImageSize = (str: string) => {
   return null
 }
 
-export const createUploadRoot = (opt: Pick<BtOption, 'onClick'>) => {
-  const { onClick } = opt
+export const createUploadRoot = (opt: Pick<BtOption, 'onClick' | 'text'>) => {
+  const { onClick, text } = opt
 
   const uploadBtEl = createBtElement({
     className: 'upload-bt',
-    text: 'upload',
+    text,
     onClick
   })
   const uploadRoot = createDivElement({

@@ -3,6 +3,7 @@ import { useState, type ChangeEvent } from 'react'
 import { sendToBackgroundMessage } from '../utils/message'
 import { getImageInfoFromUrl } from '../utils'
 import { copyTextToClipboard } from '../utils/element'
+import { SendToBackgroundCustomUploadMessageResponse } from '../types'
 
 type Props = {
   url: string
@@ -24,17 +25,24 @@ const BeforeUploadModal = (props: Props) => {
     setName(e.target.value)
   }
 
-  const onOk = () => {
-    messageApi.success('上传成功，已复制')
-    copyTextToClipboard('上传成功，已复制')
-    sendToBackgroundMessage({
+  const onOk = async () => {
+    const response = (await sendToBackgroundMessage({
       type: 'customUpload',
       data: {
         url,
         name,
         suffix: result!.suffix
       }
-    })
+    })) as SendToBackgroundCustomUploadMessageResponse
+
+    const { isOk } = response
+    if (isOk) {
+      copyTextToClipboard(response.url)
+      messageApi.success('上传成功，已复制')
+      setOpen(false)
+      return
+    }
+    messageApi.error(response.message || '上传失败')
   }
 
   return (

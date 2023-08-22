@@ -1,18 +1,26 @@
 import { message } from 'antd'
+import { copyTextToClipboard } from '../utils/element'
 
-const HistoryItem = () => {
+export type HistoryItemProps = {
+  name: string
+  url: string
+}
+const HistoryItem = (props: HistoryItemProps) => {
   const [messageApi, contextHolder] = message.useMessage()
 
+  const { name, url } = props
+
   const onCopy = () => {
+    copyTextToClipboard(url)
     messageApi.success('复制成功')
   }
 
   return (
     <>
-      <div className="flex-between-center">
+      <div className="flex-between-center mt-2">
         <div className="flex-start-center gap-2">
-          <img className="h-10" src="https://picsum.photos/200/300" />
-          <span>name</span>
+          <img className="h-10" src={url} />
+          <span>{name}</span>
         </div>
 
         <div>

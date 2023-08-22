@@ -1,3 +1,4 @@
+// @ts-ignore
 import injectSrc from './inject?script&module'
 ;(function () {
   console.log('-----inject-content-start-----')

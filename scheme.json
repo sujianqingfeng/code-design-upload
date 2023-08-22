@@ -1,8 +1,14 @@
 {
   "name": "test config",
   "pictureUploadBtText": "上传",
-  "action": "",
+  "action": "[upload address]",
   "fileKey": "file",
-  "extraForm": "is fn",
-  "verify": "is fn"
+  "extraForm": {},
+  "verifyIsOk": {
+    "path": "",
+    "value": ""
+  },
+  "resultMap": {
+    "urlPath": ""
+  }
 }

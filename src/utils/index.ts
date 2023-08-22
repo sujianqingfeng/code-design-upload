@@ -45,7 +45,6 @@ export const readFile = (file: File) => {
 }
 
 export const parseJson = (str: string) => {
-  console.log('🚀 ~ file: index.ts:77 ~ parseJson ~ str:', str)
   return Effect.try({
     try: () => JSON.parse(str) as Record<string, any>,
     catch: () => Effect.fail('解析失败')
@@ -83,7 +82,7 @@ export const getImageInfoFromUrl = (url: string) => {
   return null
 }
 
-export const get = (
+export const get = <T = string>(
   data: Record<string, any>,
   str: string,
   defaultValue = ''
@@ -92,8 +91,8 @@ export const get = (
     return pre?.[cur]
   }, data)
 
-  if (value) {
-    return value
+  if (value !== undefined) {
+    return value as T
   }
 
   return defaultValue

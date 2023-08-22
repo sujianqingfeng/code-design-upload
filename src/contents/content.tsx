@@ -77,6 +77,7 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       }
 
       const uploadRoot = createUploadRoot({
+        text: currentConfig.pictureUploadBtText,
         onClick() {
           onUploadClick(entry.target)
         }

@@ -33,8 +33,19 @@ type SendToBackgroundCustomUploadMessage = {
   data: SendToBackgroundCustomUploadMessagePreload
 }
 
+export type SendToBackgroundCustomUploadMessageResponse =
+  | {
+      isOk: false
+      message: string
+    }
+  | { isOk: true; url: string }
+
 type SendToBackgroundDeleteCurrentConfigMessage = {
   type: 'deleteCurrentConfig'
+}
+
+type SendToGetHistoriesMessage = {
+  type: 'getHistories'
 }
 
 export type SendToBackgroundMessage =
@@ -45,6 +56,7 @@ export type SendToBackgroundMessage =
   | SendToBackgroundGetCurrentConfigMessage
   | SendToBackgroundCustomUploadMessage
   | SendToBackgroundDeleteCurrentConfigMessage
+  | SendToGetHistoriesMessage
 
 type SendToPopupGetConfigsMessage = {
   type: 'getConfigs'
@@ -52,14 +64,3 @@ type SendToPopupGetConfigsMessage = {
 }
 
 export type SendToPopupMessage = SendToPopupGetConfigsMessage
-
-export type ExtraFormFn = (name: string) => Record<string, unknown>
-
-export type VerifyData = {
-  copyUrl: string
-  url: string
-  name: string
-}
-export type VerifyFn = (
-  data: Record<string, unknown>
-) => ({ isVerify: true } & VerifyData) | { isVerify: false }

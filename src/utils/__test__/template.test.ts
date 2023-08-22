@@ -15,20 +15,31 @@ describe('template', () => {
 
     test('success', () => {
       const data = {
-        name: 'test',
-        pictureUploadBtText: 'upload',
-        action: 'http://test.com',
-        verify: 'test'
+        name: 'name',
+        action: 'url',
+        verifyIsOk: {
+          path: 'code',
+          value: 0
+        },
+        resultMap: {
+          urlPath: 'data'
+        }
       }
       const result = Effect.runSync(isTemplateConfigValid(data))
       expect(result).toMatchInlineSnapshot(`
         {
-          "action": "http://test.com",
-          "extraForm": "()=>({})",
+          "action": "url",
+          "extraForm": {},
           "fileKey": "file",
-          "name": "test",
+          "name": "name",
           "pictureUploadBtText": "upload",
-          "verify": "test",
+          "resultMap": {
+            "urlPath": "data",
+          },
+          "verifyIsOk": {
+            "path": "code",
+            "value": 0,
+          },
         }
       `)
     })
