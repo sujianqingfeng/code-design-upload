@@ -9,7 +9,8 @@
       "js": ["src/contents/content.tsx"],
       "matches": [
         "https://codesign.qq.com/app/design/*/inspect*",
-        "https://codesign.qq.com/app/design/*/board*"
+        "https://codesign.qq.com/app/design/*/board*",
+        "https://codesign.qq.com/s/*"
       ]
     }
   ],
