@@ -30,6 +30,7 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
     return
   }
   debug('currentConfig', currentConfig)
+  console.log('🚀 ~ currentConfig:', currentConfig)
 
   const onUploadClick = (target: Element) => {
     const thumbImgEl = target.querySelector(

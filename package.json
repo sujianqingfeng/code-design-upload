@@ -20,7 +20,7 @@
     "zod": "^3.22.1"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.18",
+    "@crxjs/vite-plugin": "2.0.0-beta.26",
     "@iconify-json/carbon": "^1.1.19",
     "@types/chrome": "^0.0.243",
     "@types/debug": "^4.1.8",
