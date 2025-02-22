@@ -2,8 +2,11 @@ import '../assets/content.css'
 import BeforeUploadModal from '../components/BeforeUploadModal'
 import { createDebug } from '../utils'
 import {
+  copyTextToClipboard,
+  createCopyRoot,
   createUploadRoot,
   getImageSize,
+  hasUploadRoot,
   intervalElementVisible,
   renderCrxRoot
 } from '../utils/element'
@@ -32,7 +35,7 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
   debug('currentConfig', currentConfig)
   console.log('🚀 ~ currentConfig:', currentConfig)
 
-  const onUploadClick = (target: Element) => {
+  const getUrl = (target: Element) => {
     const thumbImgEl = target.querySelector(
       `${CODE_DESIGN_THUMB_BOX_CLASS} img`
     )
@@ -65,33 +68,95 @@ const CODE_DESIGN_SLICE_ITEM_CHECKED_LABEL_CLASS = '.t-checkbox__label small'
       /\/thumbnail\/\d+x\d+/,
       `/thumbnail/${size[0]}x${size[1]}`
     )
+
+    return url
+  }
+
+  const onUploadClick = (target: Element) => {
+    const url = getUrl(target)
+    if (!url) {
+      return
+    }
+
     renderCrxRoot(<BeforeUploadModal url={url} />)
   }
 
-  const observer = new IntersectionObserver(
-    function (entries) {
-      const entry = entries[0]
-      const downloadEl = entry.target.querySelector(CODE_DESIGN_DOWNLOAD_CLASS)
+  const onCopyClick = (target: Element) => {
+    const url = getUrl(target)
+    if (!url) {
+      return
+    }
 
-      if (!downloadEl) {
+    copyTextToClipboard(url)
+
+    // Create and show toast notification
+    const toast = document.createElement('div')
+    toast.textContent = '复制成功'
+    toast.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      z-index: 999999;
+      pointer-events: none;
+    `
+
+    document.body.appendChild(toast)
+
+    // Remove toast after 2 seconds
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast)
+      }
+    }, 2000)
+  }
+
+  const observer = new IntersectionObserver(
+    async function (entries) {
+      const entry = entries[0]
+
+      if (!entry.intersectionRatio) {
         return
       }
 
-      const uploadRoot = createUploadRoot({
-        text: currentConfig.pictureUploadBtText,
-        onClick() {
-          onUploadClick(entry.target)
+      if (hasUploadRoot(entry.target)) {
+        return
+      }
+
+      intervalElementVisible({
+        el: () => entry.target.querySelector(CODE_DESIGN_DOWNLOAD_CLASS),
+        timeout: 1000,
+        callback(el) {
+          const uploadRoot = createUploadRoot({
+            text: currentConfig.pictureUploadBtText,
+            onClick() {
+              onUploadClick(entry.target)
+            }
+          })
+
+          const copyRoot = createCopyRoot({
+            text: '复制url',
+            onClick() {
+              onCopyClick(entry.target)
+            }
+          })
+
+          const parentNode = el.parentNode!
+          parentNode.insertBefore(uploadRoot, el)
+          parentNode.insertBefore(copyRoot, el)
         }
       })
-
-      const parentNode = downloadEl.parentNode!
-      parentNode.insertBefore(uploadRoot, downloadEl)
     },
     { threshold: [1] }
   )
 
   intervalElementVisible({
-    el: () => document.querySelector('.inspector-nav'),
+    el: () => document.querySelector('.screen-inspector'),
     timeout: 2000,
     callback(el) {
       observer.observe(el)

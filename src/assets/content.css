@@ -14,6 +14,22 @@
   cursor: pointer;
 }
 
+.copy-root {
+  display: flex;
+  margin-top: 8px;
+}
+
+.copy-bt {
+  flex: 1;
+  display: block;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 2px;
+  color: hsla(0, 0%, 100%, 0.9);
+  background-color: #222324;
+  cursor: pointer;
+}
+
 .code-design-upload-message-box {
   position: fixed;
   z-index: 10;

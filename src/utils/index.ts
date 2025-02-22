@@ -97,3 +97,7 @@ export const get = <T = string>(
 
   return defaultValue
 }
+
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

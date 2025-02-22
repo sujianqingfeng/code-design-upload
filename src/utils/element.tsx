@@ -75,6 +75,27 @@ export const createUploadRoot = (opt: Pick<BtOption, 'onClick' | 'text'>) => {
   return uploadRoot
 }
 
+export const createCopyRoot = (opt: Pick<BtOption, 'onClick' | 'text'>) => {
+  const { onClick, text } = opt
+
+  const copyBtEl = createBtElement({
+    className: 'copy-bt',
+    text,
+    onClick
+  })
+  const copyRoot = createDivElement({
+    id: 'copy-root',
+    className: 'copy-root',
+    child: copyBtEl
+  })
+
+  return copyRoot
+}
+
+export const hasUploadRoot = (el: Element) => {
+  return el.querySelector('#upload-root')
+}
+
 export const showMessage = (msg: string) => {
   const el = document.createElement('div')
   el.innerText = msg
